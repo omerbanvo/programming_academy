@@ -1,7 +1,7 @@
 import threading
 
 Counter = 0
-#פעולה שמעלה את המשתנה הגלובלי ב 100,000
+#פעולה שמעלה שמוסיפה למשתנה הגלובלי ב 100,000
 def Increase():
     global Counter
     for i in range(100000):
