@@ -6,7 +6,7 @@ def start_client():
     s_PORT = 12345
 
     client_socket.connect((s_HOST, s_PORT))
-    print(f"connected to a server - {s_HOST}:{s_PORT}")
+    print(f"connected to a server - {s_HOST}: {s_PORT}")
     while True:
         messege = str(input("what do you want to send ? (type - 'exit' if you want to exit) \n"))
         if (messege.lower().strip() == "exit"):
