@@ -84,15 +84,21 @@ def start_client():
             client_socket.sendall(file_name)
 
             has_file_size = int.from_bytes(recv_exact(client_socket, 4), "big")
-            has_file = recv_exact(client_socket, has_file_size).decode('utf')
+            has_file = recv_exact(client_socket, has_file_size).decode('utf-8')
             if has_file.lower().strip() == "file not found":
                 print("file was not found in the server's storage, please try another name")
                 continue
             else:
+                
+                print(f"file {file_name} has been found. now waiting for recieving")
                 where_to_save = str(input("where do you want to save the file?\nwrite the path..."))
                 while not os.path.exists(where_to_save):
                     print("not found, check again")
-                recive_file_for_download(client_socket, where_to_save, file_name)
+                    where_to_save = str(input("where do you want to save the file?\nwrite the path..."))
+                   
+
+                file_name = file_name.decode("utf-8")
+                recieving_file(client_socket, where_to_save, file_name)
 
         
         data = client_socket.recv(1024)
@@ -104,3 +110,4 @@ def start_client():
     client_socket.close()
 
 start_client()
+

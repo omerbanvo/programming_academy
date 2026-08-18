@@ -60,8 +60,9 @@ def return_file_path(name, folder_path):
             if item.name == name:
                 return Path(item)
         elif item.is_dir():
-            if return_file_path(name, item):
-                return Path(item)
+            found = return_file_path(name, item)
+            if found:
+                return found
         else:
             raise KeyError('file not found')
 
@@ -101,7 +102,7 @@ def run_server():
             elif flag == "download request":
 
                 has_file_name_size = int.from_bytes(recv_exact(user_socket, 4), "big")
-                has_file_name = recv_exact(user_socket, has_file_name).decode('utf-8')
+                has_file_name = recv_exact(user_socket, has_file_name_size).decode('utf-8')
                 has_file = check_if_has_file(has_file_name, UPLOAD_FOLDER)
                 if has_file:
                     string = "file found".encode('utf-8')
@@ -110,6 +111,12 @@ def run_server():
                     user_socket.sendall(string)
                     file_path = return_file_path(has_file_name, UPLOAD_FOLDER)
                     send_file(user_socket, file_path)
+                else:
+                    string = "file not found".encode('utf-8')
+                    string_size_first_4_bytes = len(string).to_bytes(4, "big")
+                    user_socket.sendall(string_size_first_4_bytes)
+                    user_socket.sendall(string)
+
 
 
 
@@ -122,3 +129,6 @@ def run_server():
 
 
 run_server()
+
+
+# need to add confirmation the the client after each outcome.
