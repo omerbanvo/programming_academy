@@ -12,7 +12,7 @@ def password_strength():
 #adding all points:
 def adding_points(password):
     global points
-    contains_common_words_points = lambda item: ("admin" in item) + ("123456" in item)
+    contains_common_words_points = lambda item: ("admin" in item) + ("123456" in item) + ("password" in item)
     sub = contains_common_words_points(password)
     points -=sub
     try:
@@ -58,7 +58,7 @@ def points_for_len(password):
     else:
         return 0
 
-password = "P@ssw0rd"
+password = "1234"
 #adding the points:
 adding_points(password)
 #getting feedback for the points
