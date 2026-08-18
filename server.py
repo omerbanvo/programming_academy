@@ -131,4 +131,4 @@ def run_server():
 run_server()
 
 
-# need to add confirmation the the client after each outcome.
+# need to add confirmation messege the the client after each outcome. 
