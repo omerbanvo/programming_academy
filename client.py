@@ -54,7 +54,7 @@ def recieving_file(sock, folder, name):
 
 
 
-
+#start the socket
 def start_client():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s_HOST = "127.0.0.1"
@@ -101,13 +101,16 @@ def start_client():
                 recieving_file(client_socket, where_to_save, file_name)
 
         
-        data = client_socket.recv(1024)
+        data_info = int.from_bytes(recv_exact(client_socket, 4), "big")
+        data = recv_exact(client_socket, data_info)
+
 
         returned_messege = data.decode('utf-8')
         print(f"server's response: {returned_messege}")
 
     print("closing connection.")
     client_socket.close()
+
 
 start_client()
 

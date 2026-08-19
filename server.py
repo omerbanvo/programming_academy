@@ -93,42 +93,50 @@ def run_server():
     while True:
         user_socket, user_address = socket_server.accept()
         print(f"connection made with {user_address}: {user_socket}")
-        while True:
-            flag_length = int.from_bytes(recv_exact(user_socket, 4), "big")
-            flag = recv_exact(user_socket, flag_length).decode('utf-8')
+        try:
+            while True:
+                flag_length = int.from_bytes(recv_exact(user_socket, 4), "big")
+                flag = recv_exact(user_socket, flag_length).decode('utf-8')
+        
 
-            if flag == "upload request":
-                recieving_file(user_socket, UPLOAD_FOLDER)
-            elif flag == "download request":
-
-                has_file_name_size = int.from_bytes(recv_exact(user_socket, 4), "big")
-                has_file_name = recv_exact(user_socket, has_file_name_size).decode('utf-8')
-                has_file = check_if_has_file(has_file_name, UPLOAD_FOLDER)
-                if has_file:
-                    string = "file found".encode('utf-8')
-                    string_size_first_4_bytes = len(string).to_bytes(4, "big")
-                    user_socket.sendall(string_size_first_4_bytes)
-                    user_socket.sendall(string)
-                    file_path = return_file_path(has_file_name, UPLOAD_FOLDER)
-                    send_file(user_socket, file_path)
-                else:
-                    string = "file not found".encode('utf-8')
-                    string_size_first_4_bytes = len(string).to_bytes(4, "big")
-                    user_socket.sendall(string_size_first_4_bytes)
-                    user_socket.sendall(string)
+                if flag == "upload request":
+                    recieving_file(user_socket, UPLOAD_FOLDER)
+                    #text to send client that the upload was succesfull
+                    status_response_text = "file was succesfully uploaded.".encode("utf-8") 
+                    status_response_info = len(status_response_text).to_bytes(4, "big")
+                    #sending the confermation messege
+                    user_socket.sendall(status_response_info)
+                    user_socket.sendall(status_response_text)
 
 
+                elif flag == "download request":
 
+                    has_file_name_size = int.from_bytes(recv_exact(user_socket, 4), "big")
+                    has_file_name = recv_exact(user_socket, has_file_name_size).decode('utf-8')
+                    has_file = check_if_has_file(has_file_name, UPLOAD_FOLDER)
+                    if has_file:
+                        string = "file found".encode('utf-8')
+                        string_size_first_4_bytes = len(string).to_bytes(4, "big")
+                        user_socket.sendall(string_size_first_4_bytes)
+                        user_socket.sendall(string)
+                        file_path = return_file_path(has_file_name, UPLOAD_FOLDER)
+                        send_file(user_socket, file_path)
+                        status_response_text2 = "file was sent for downloading.".encode("utf-8")
+                        status_response_info2 = len(status_response_text2).to_bytes(4, "big")
+                        user_socket.sendall(status_response_info2)
+                        user_socket.sendall(status_response_text2)
+                        
+                    else:
+                        string = "file not found".encode('utf-8')
+                        string_size_first_4_bytes = len(string).to_bytes(4, "big")
+                        user_socket.sendall(string_size_first_4_bytes)
+                        user_socket.sendall(string)
 
-            
+        except ConnectionError:
+                    print(f"client {user_address} disconnected")
 
-            #print(f"file recieved from {user_address}: '{file_name}'")
-            #string = f"file: {file_name} recieved"
-            #return_messege = string.encode('utf-8')
-            #user_socket.send(return_messege)
 
 
 run_server()
 
 
-# need to add confirmation messege the the client after each outcome. 
