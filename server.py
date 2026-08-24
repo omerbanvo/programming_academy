@@ -131,6 +131,9 @@ def run_server():
                         string_size_first_4_bytes = len(string).to_bytes(4, "big")
                         user_socket.sendall(string_size_first_4_bytes)
                         user_socket.sendall(string)
+                else:
+                    user_socket.close()
+                    socket_server.close()
 
         except ConnectionError:
                     print(f"client {user_address} disconnected")
