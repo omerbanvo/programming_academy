@@ -4,6 +4,7 @@ import socket
 from client import upload_file
 from client import download_file
 
+#class for the gui 
 class FileTransferGUI:
     def __init__(self, client_folder, server_folder):
         self.client_folder = client_folder
@@ -113,6 +114,7 @@ class FileTransferGUI:
             self.selected_server_file = result
             self.download_button.config(state="normal")
 
+    #upload button
     def upload(self):
         flag = "upload".encode('utf-8')
         self.client_socket.sendall(flag)
@@ -124,7 +126,7 @@ class FileTransferGUI:
 
         
 
-
+    #download button
     def download(self):
         
         flag = "download".encode('utf-8')

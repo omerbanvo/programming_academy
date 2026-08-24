@@ -40,7 +40,7 @@ def all_file_names(folder):
 
 
 
-
+#server socket
 def start_server():
     HOST = "127.0.0.1"
     PORT = 2345
@@ -67,5 +67,5 @@ def start_server():
         selected_file = client_socket.recv(1024).decode('utf-8')
         send_file(client_socket, folder, selected_file)
     
-
+#start the server
 start_server() 

@@ -59,5 +59,6 @@ def start_client():
 
         download_file(client_socket, tempfolder, file_name)
 
+#i use the upload and the download functions in the gui file... so i only want them to run threre
 if __name__ == "__main__":   
     start_client()
