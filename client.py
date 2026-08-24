@@ -1,5 +1,8 @@
 import socket
 import os
+import tkinter
+
+
 def recv_exact(sock, recv_size):
     buffer = b""
     while len(buffer) < recv_size:
