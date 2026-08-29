@@ -14,3 +14,5 @@ def send_arp_spoof(my_ip, router_ip, Target_ip, My_mac, Target_mac):
     while True:
         s.sendp(arp_spoof)
 
+
+
