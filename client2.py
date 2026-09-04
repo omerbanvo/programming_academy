@@ -21,7 +21,7 @@ def upload_file(sock, path):
 #function to recieve file
 def download_file(sock, folderpath, name):
     #creating a new path for the file
-    #name = name.decode('utf-8')
+    name = name.decode('utf-8')
     new_path = os.path.join(folderpath, name)
     with open(new_path, "wb") as f:
         #recieving chunks of the file from server
@@ -62,3 +62,15 @@ def start_client():
 #i use the upload and the download functions in the gui file... so i only want them to run threre
 if __name__ == "__main__":   
     start_client()
+
+
+
+
+
+
+
+
+
+
+
+    

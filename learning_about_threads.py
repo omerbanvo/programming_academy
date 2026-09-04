@@ -1,5 +1,5 @@
 import threading
-import Lock
+from threading import Lock
 
 Counter = 0
 counter_lock = Lock()
