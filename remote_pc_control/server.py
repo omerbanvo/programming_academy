@@ -3,8 +3,26 @@ import Enum_flags_class as enum
 from pynput import mouse
 from pynput import keyboard
 import time
+import io 
+from PIL import Image
+import threading
+
+
+
 
 client_sock = None
+
+
+
+def recv_exact(sock, num_bytes):
+    buffer = b""
+    while len(buffer)<num_bytes:
+        chunk = sock.recv(num_bytes - len(buffer))
+        if not chunk:
+            raise ConnectionError("socket closed before recievig all the information")
+        buffer+= chunk
+    return buffer
+
 def on_press(key):
     global client_sock
     try:
@@ -43,7 +61,7 @@ def on_click(x, y, button, pressed):
 
 def on_scroll(x, y, dx, dy):
     global client_sock
-    body = f"s{x},{dy}".encode('utf-8')
+    body = f"s{dx},{dy}".encode('utf-8')
     send_exact(client_sock, enum.MsgType.mouse, body)
 
 
@@ -53,7 +71,35 @@ def send_exact(sock, msg_type, body):
     type_bytes = msg_type.value.to_bytes(1, "big")
     length_bytes = len(body).to_bytes(4, "big")
     full_message= type_bytes+length_bytes+body
-    sock.sendall(full_message)
+    with send_lock:
+        sock.sendall(full_message)
+
+
+
+
+
+
+
+
+def recieve_images(sock):
+    while True:
+        img_bytes_arr = io.BytesIO()
+        header = recv_exact(sock, 5)
+        header = header[1:5] #remove the tag, it has to be an image 
+        length = int.from_bytes(header[0:], "big")
+        img_bytes = recv_exact(sock, length)
+        img_bytes_arr = io.BytesIO(img_bytes)
+        screenshot = Image.open(img_bytes_arr)
+        screenshot.show()
+        
+
+
+
+
+
+
+
+send_lock = threading.Lock()
 
 
 def start_server():
@@ -67,7 +113,8 @@ def start_server():
     server_sock.listen(1)
     client_sock, client_adress = server_sock.accept()
     print("connection made with: {}".format(client_adress))
-
+    recieve_screenshots = threading.Thread(target= recieve_images, args= (client_sock, ))
+    recieve_screenshots.start()
     lis =  keyboard.Listener(
     on_press= on_press, 
     on_release = on_release)
