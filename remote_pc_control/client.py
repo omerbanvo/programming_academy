@@ -22,6 +22,7 @@ def start_client():
     print(f"connecting to server on- {adress}")
     client_sock.connect(adress)
     kControll = keyboard.Controller()
+    mControll = mouse.Controller()
     while True:
         header = recv_exact(client_sock, 5)
         type_bytes = header[0:1]
@@ -45,10 +46,24 @@ def start_client():
             kControll.press(key)
             kControll.release(key)
 
-
-
-        elif msg_type == enum.MsgType.mouse.value:
-            pass 
+        if msg_type == enum.MsgType.mouse.value:
+            if(body[0] == "c"):
+                body_without_tag = body[1:]        
+                data = body_without_tag.split(",")
+                mposition = (float(data[0]), float(data[1]))
+                mControll.position = mposition
+                button_name = data[2][7:]
+                mControll.click(button= getattr(Button, button_name))
+            
+            elif body[0] == "s":
+                body_without_tag = body[1:]
+                data = body_without_tag.split(",")
+                mControll.scroll(float(data[0]), float(data[1])) 
+            elif body[0] == "m":
+                body_without_tag = body[1:]
+                data = body_without_tag.split(",")
+                mControll.move(float(data[0]), float(data[1]))
+            
 
 if __name__ == "__main__":
     start_client()
