@@ -43,7 +43,7 @@ def on_click(x, y, button, pressed):
 
 def on_scroll(x, y, dx, dy):
     global client_sock
-    body = f"s{dx},{dy}".encode('utf-8')
+    body = f"s{x},{dy}".encode('utf-8')
     send_exact(client_sock, enum.MsgType.mouse, body)
 
 
@@ -58,7 +58,7 @@ def send_exact(sock, msg_type, body):
 
 def start_server():
     global client_sock
-    adress = ("10.100.102.34", 8080)
+    adress = ("10.100.102.36",8080)
 
 
     server_sock = s.socket(s.AF_INET, s.SOCK_STREAM)
