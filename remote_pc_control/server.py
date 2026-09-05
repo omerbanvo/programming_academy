@@ -6,12 +6,13 @@ import time
 import io 
 from PIL import Image
 import threading
-
+import cv2
+import numpy
 
 
 
 client_sock = None
-
+latest_image = None
 
 
 def recv_exact(sock, num_bytes):
@@ -82,6 +83,7 @@ def send_exact(sock, msg_type, body):
 
 
 def recieve_images(sock):
+    global latest_image
     while True:
         img_bytes_arr = io.BytesIO()
         header = recv_exact(sock, 5)
@@ -90,7 +92,8 @@ def recieve_images(sock):
         img_bytes = recv_exact(sock, length)
         img_bytes_arr = io.BytesIO(img_bytes)
         screenshot = Image.open(img_bytes_arr)
-        screenshot.show()
+        latest_image = screenshot
+
         
 
 
@@ -104,6 +107,7 @@ send_lock = threading.Lock()
 
 def start_server():
     global client_sock
+    global latest_image
     adress = ("10.100.102.36",8080)
 
 
@@ -127,7 +131,12 @@ def start_server():
     mlis.start()
 
     while True:
-        time.sleep(1)
+        if latest_image is not None:
+            img_array = numpy.array(latest_image)
+            img_bgr = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
+            cv2.imshow("Remote Screen", img_bgr)
+            cv2.waitKey(1)
+        time.sleep(0.05)  # קצב בדיקה, לא חייב 1 שנייה כמו קודם
 
 if __name__ == "__main__":
     start_server()
