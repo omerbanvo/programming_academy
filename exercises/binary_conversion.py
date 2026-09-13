@@ -20,19 +20,19 @@ def decimal_to_binary(n, bit_size):
 
 def apply_two_complement():
     pass
-
+def get_bit_size(num):
+    if num == 0:
+        return 0
+    i = 1
+    counter=0
+    while i <= num:
+        counter+=1
+        i*=2
+    return counter
 
 try:
     regular_number = int(input("enter a decimal number:\n"))
-    def get_bit_size(num):
-        if num == 0:
-            return 0
-        i = 1
-        counter=0
-        while i <= num:
-            counter+=1
-            i*=2
-        return counter
+
 
     bit_size = get_bit_size(regular_number)
 except: 
