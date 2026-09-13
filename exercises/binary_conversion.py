@@ -36,6 +36,6 @@ try:
 
     bit_size = get_bit_size(regular_number)
 except: 
-    print("you can input only numbers.")
+    print("you can input only numbers. ")
 
 print(decimal_to_binary(regular_number, bit_size))
