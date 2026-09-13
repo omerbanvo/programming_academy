@@ -1,6 +1,6 @@
 # Programming Academy
 
-This repository contains projects and exercises from my studies in Communications Networks and Protocols.
+
 
 ## Structure
 
