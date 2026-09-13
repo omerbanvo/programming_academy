@@ -20,6 +20,9 @@ def decimal_to_binary(n, bit_size):
 
 def apply_two_complement():
     pass
+
+
+
 def get_bit_size(num):
     if num == 0:
         return 0
