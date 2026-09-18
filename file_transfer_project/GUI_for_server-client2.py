@@ -1,8 +1,8 @@
 from tkinter import *
 import os
 import socket
-from client import upload_file
-from client import download_file
+from client2 import upload_file
+from client2 import download_file
 
 #class for the gui 
 class FileTransferGUI:
@@ -138,5 +138,5 @@ class FileTransferGUI:
 
 
 client_folder = '/Users/omerbanvolgyi/Documents/Temp'
-server_folder = '/Users/omerbanvolgyi/Documents/programming_academy/UPLOAD_FILES_TO_SERVER'
+server_folder = '/Users/omerbanvolgyi/Documents/programming_academy/file_transfer_project/UPLOAD_FILES_TO_SERVER'
 app = FileTransferGUI(client_folder, server_folder)

@@ -108,7 +108,7 @@ send_lock = threading.Lock()
 def start_server():
     global client_sock
     global latest_image
-    adress = ("10.100.102.36",8080)
+    adress = ("10.100.102.36",31337)
 
 
     server_sock = s.socket(s.AF_INET, s.SOCK_STREAM)

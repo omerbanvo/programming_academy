@@ -44,7 +44,7 @@ def recv_exact(sock,num_bytes ):
     return final
 
 def start_client():
-    adress = ("10.100.102.34", 8080)
+    adress = ("10.100.102.36", 8080)
     client_sock = s.socket(s.AF_INET, s.SOCK_STREAM)
     print(f"connecting to server on- {adress}")
     client_sock.connect(adress)

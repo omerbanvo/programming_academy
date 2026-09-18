@@ -44,7 +44,7 @@ def all_file_names(folder):
 def start_server():
     HOST = "127.0.0.1"
     PORT = 2345
-    folder = '/Users/omerbanvolgyi/Documents/programming_academy/UPLOAD_FILES_TO_SERVER'
+    folder = '/Users/omerbanvolgyi/Documents/programming_academy/file_transfer_project/UPLOAD_FILES_TO_SERVER'
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind((HOST, PORT))
     print("waiting for connections...\n")
