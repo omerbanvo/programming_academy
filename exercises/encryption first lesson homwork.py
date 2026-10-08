@@ -22,6 +22,7 @@ def decrypt_text(encrypted_text: str, key: str) ->str:
         key_value = ord(str(key)[i % key_length])
         char = chr(ascii_value - key_value)
         text+=char
+        i+=1
     return text
 text = input("enter a text to encrypt\n")
 key = input("enter encryption key\n")
