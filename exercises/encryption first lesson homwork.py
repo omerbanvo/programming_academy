@@ -12,11 +12,6 @@ def encrypt_plain_text(text: str, key: str) -> str:
         i+=1
     return s
 
-text = input("enter a text to encrypt\n")
-key = input("enter encryption key\n")
-encrypted_text = encrypt_plain_text(text, key)
-print(repr(encrypt_plain_text(text, key)))
-
 
 def decrypt_text(encrypted_text: str, key: str) ->str:
     text = ""
@@ -27,7 +22,13 @@ def decrypt_text(encrypted_text: str, key: str) ->str:
         key_value = ord(str(key)[i % key_length])
         char = chr(ascii_value - key_value)
         text+=char
-        i+=1
     return text
+text = input("enter a text to encrypt\n")
+key = input("enter encryption key\n")
+encrypted_text = encrypt_plain_text(text, key)
+print(repr(encrypted_text))
+
+
+
 
 print(decrypt_text(encrypted_text,key ))
