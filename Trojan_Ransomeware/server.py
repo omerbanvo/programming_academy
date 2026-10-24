@@ -4,7 +4,6 @@ from Crypto.Random import get_random_bytes
 from  encryptor import *
 
 adress = ("127.0.0.1", 31337)
-#creating the
 context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
 context.load_cert_chain("server.crt", "server.key")
 
